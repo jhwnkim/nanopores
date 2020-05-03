@@ -59,7 +59,7 @@ class Geometry(object):
                  physical_domain=None, physical_boundary=None,
                  synonymes=None, params=None):
         if module:
-            exec 'from %s import *' %module.__name__ in globals(), locals()
+            exec('from %s import *' %module.__name__ in globals(), locals())
 
         self.mesh = mesh
 
@@ -261,7 +261,7 @@ class Geometry(object):
         # compute has to be provided the first time the constant is requested
         if not name in self.constants:
             self.constants[name] = GeometricConstant(name, compute, self)
-            print "Computed %s." %(self.constants[name],)
+            print("Computed %s." %(self.constants[name],))
         return self.constants[name].function
 
 
@@ -319,7 +319,7 @@ class Geometry(object):
             for name in self.volumes[meas]:
                 dmu = getattr(self, meas)(name)
                 vol = assemble(Constant(1.0)*dmu)
-                print "DEBUG New volume:", vol
+                print("DEBUG New volume:", vol)
                 self.volumes[meas][name].assign(vol)
         #print self.volumes
 
@@ -607,7 +607,7 @@ class PointBC(object):
             else:
                 pass
                 #print "not found:", p
-        print "Found %d of %d points." %(len(node_set), len(points))
+        print("Found %d of %d points." %(len(node_set), len(points)))
 
         self.bc_f.vector().set_local(bc_values)
         self.bc_f.vector().apply("insert") # TODO: what does this do?

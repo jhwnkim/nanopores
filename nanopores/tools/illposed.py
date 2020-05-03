@@ -121,16 +121,16 @@ class IllposedLinearSolver(object):
         if isinstance(self.S, petsc4py.PETSc.KSP):
             l = as_backend_type(b).vec()
             (x, _) = self.S.getOperators()[0].getVecs()
-            print "Solving system iteratively with PETSc fieldsplit ..."
+            print("Solving system iteratively with PETSc fieldsplit ...")
             self.S.solve(l, x)
             u.vector().set_local(x.array.astype("float_"))
         elif isinstance(self.S, PETScKrylovSolver):
             i = self.S.solve(u.vector(),b)
             # print DEBUG
             if not "kparams" in self.method or i < self.method["kparams"]["maximum_iterations"]:
-                print "    PETSc Krylov solver converged in %d iterations." %i
+                print("    PETSc Krylov solver converged in %d iterations." %i)
             else:
-                print "    PETSc Krylov solver failed to converge in %d iterations." %i
+                print("    PETSc Krylov solver failed to converge in %d iterations." %i)
         else:
             #print "DEBUG: dim u", u.vector().array().shape
             #print "DEBUG: dim b", b.array().shape
@@ -164,7 +164,7 @@ class IllposedLinearSolver(object):
             self.problem.L = replace_function_in_form(self.problem.L,f,newfunctions[i])
 
     def print_method(self):
-        print self.method
+        print(self.method)
         info(self.S.parameters, True)
 
 # END of class

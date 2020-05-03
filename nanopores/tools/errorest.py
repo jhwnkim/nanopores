@@ -231,12 +231,12 @@ def pb_indicator_GO(geo, phys, u, z, cyl=False):
     #plotind = plot(indicators2, title="indicator pb GO", elevate=0.0, interactive=True)
 
     # FIXME ?
-    print "Goal (dual):", goal
-    print "Goal (extrapolated dual):", goal_ex
-    print "This should be zero (dual global residual):", error_res
-    print "Extrapolated dual residual:", error_rep
-    print "indicator sum:", error_sum
-    print "ind sum w/o extrap:", cheap_sum
+    print("Goal (dual):", goal)
+    print("Goal (extrapolated dual):", goal_ex)
+    print("This should be zero (dual global residual):", error_res)
+    print("Extrapolated dual residual:", error_rep)
+    print("indicator sum:", error_sum)
+    print("ind sum w/o extrap:", cheap_sum)
 
     # return indicators, error_rep, error_sum
     return indicators, error_sum, error_rep, cheap_sum, goal, goal_ex
@@ -305,9 +305,9 @@ def pb_indicator_GO_cheap(geo, phys, u, z, cyl=False):
     error_sum = sum(vec)*scale
     #plotind = plot(indicators2, title="indicator pb GO", elevate=0.0, interactive=True)
 
-    print "Goal (dual):", goal
-    print "This should be zero (dual global residual):", error_res
-    print "indicator sum (does not make sense as error estimate):", error_sum
+    print("Goal (dual):", goal)
+    print("This should be zero (dual global residual):", error_res)
+    print("indicator sum (does not make sense as error estimate):", error_sum)
 
     # return indicators, error_rep, error_sum
     return indicators, error_sum, goal

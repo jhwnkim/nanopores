@@ -62,14 +62,14 @@ class TransientLinearPDE(PDESystem):
             self.timerange = timerange(t, self.dt)
     
         if verbose:
-            print "\n"
+            print("\n")
         # evolve system up to time t
         for t_ in self.timerange:
             self.time.append(t_)
             self.timestep(**params)
             if verbose:
-                print "\x1b[A","\r",
-                print "t = %s [s]" %t_
+                print("\x1b[A","\r",)
+                print("t = %s [s]" %t_)
             if record_functionals:
                 self.record_functionals()
             if visualize:

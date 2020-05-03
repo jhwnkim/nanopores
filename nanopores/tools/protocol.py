@@ -1,4 +1,4 @@
-from dictio import read_dict, write_dict
+from .dictio import read_dict, write_dict
 import numpy as np
 import copy
 import os
@@ -102,14 +102,14 @@ class Data(object):
         
         # check for valid id
         if uid in [0,1]:
-            print "Error: %s is not a valid ID, returning." %uid
+            print("Error: %s is not a valid ID, returning." %uid)
             return get_remaining(data)
         
         # get indices of vertices to update by id
         vertices = np.nonzero(data["status"] == uid)[0]
         
         if vertices.size == 0:
-            print "Warning: ID not found, returning."
+            print("Warning: ID not found, returning.")
             return get_remaining(data)
         
         # check which of the relevant vertices are present in other 
@@ -143,7 +143,7 @@ class Data(object):
         
         # check for valid id
         if uid in [0,1]:
-            print "Error: %s is not a valid ID, returning." %uid
+            print("Error: %s is not a valid ID, returning." %uid)
             return None
             
         if uid is not None:
