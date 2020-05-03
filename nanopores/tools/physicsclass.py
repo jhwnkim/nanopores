@@ -2,7 +2,7 @@
 
 #from .utilities import import_vars
 from collections import defaultdict
-from importlib import import_module
+from importlib import import_module, reload
 import inspect
 
 __all__ = ["Physics"]
@@ -40,11 +40,11 @@ class Physics(object):
         self.functions = {}
         self.maps = {}
         for k,v in var.items():
-            if typestr(v) is "function":
+            if typestr(v)=="function":
                 self.functions[k] = v
-            elif typestr(v) is "dict":
+            elif typestr(v)=="dict":
                 self.maps[k] = v
-            elif typestr(v) is "module":
+            elif typestr(v)=="module":
                 pass
             else:
                 self.base[k] = v
