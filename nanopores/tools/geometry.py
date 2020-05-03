@@ -112,9 +112,9 @@ class Geometry(object):
         return self.mesh.topology().dim()
 
     def interprete(self, string):
-        if self.subdomains and self._physical_domain and self._physical_domain.has_key(string):
+        if self.subdomains and self._physical_domain and (string in self._physical_domain):
             return (self.subdomains,self._physical_domain[string])
-        elif self.boundaries and self._physical_boundary and self._physical_boundary.has_key(string):
+        elif self.boundaries and self._physical_boundary and (string in self._physical_boundary):
             return (self.boundaries,self._physical_boundary[string])
         else:
             dolfin_error(__name__+".py",
@@ -243,7 +243,7 @@ class Geometry(object):
             return inner(_wrapf(value), v) * dx
 
     def pwconst(self, string, value=None, DG=True): #TODO: should also work as in docstring
-        if DG and self.dg.has_key(string):
+        if DG and (string in self.dg):
             return self.dg[string]
         value = self._getvalue(string, value)
         dom2value = self._pwconst_lookup(self._dom2phys, value)
@@ -354,7 +354,7 @@ class Geometry(object):
                         self._physical_boundary]:
                 t = set()
                 for phys in syns[syn]:
-                    if dic.has_key(phys):
+                    if phys in dic:
                         t = t | set(dic[phys])
                     else:
                         t = None
@@ -454,8 +454,8 @@ class Geometry(object):
         dom2value = {}
         for i in dom2phys:
             for s in dom2phys[i]:
-                if value.has_key(s):
-                    if dom2value.has_key(i) and (not value[s] == dom2value[i]):
+                if s in value:
+                    if i in dom2value and (not value[s] == dom2value[i]):
                         dolfin_error(__name__+".py",
                             "create piecewise constant",
                             "The value on '%s' is ambigous, check %s" %(s,self.physics.__name__))
@@ -683,7 +683,7 @@ def _invert_dict_nonunique(dom):
     d = {}
     for s in dom:
         for i in dom[s]:
-            if d.has_key(i):
+            if i in d:
                 d[i].append(s)
             else:
                 d[i] = [s]
