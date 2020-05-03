@@ -65,10 +65,10 @@ class Geometry(object):
 
         # trivial default subdomains/boundaries
         if subdomains is None:
-            subdomains = CellFunction("size_t", mesh, 0)
+            subdomains = MeshFunction("size_t", mesh, mesh.topology().dim())
             physical_domain = {"domain":(0,)}
         if boundaries is None:
-            boundaries = FacetFunction("size_t", mesh, 0)
+            boundaries = MeshFunction("size_t", mesh, mesh.topology().dim()-1)
             AutoSubDomain(lambda x, on_boundary : on_boundary).mark(boundaries, 1)
             physical_boundary = {"boundary":(1,)}
 
@@ -379,7 +379,7 @@ class Geometry(object):
             return SubMesh(self.mesh, self.indicator(string), 1)
 
     def indicator(self, string, DG=False, callable=False):
-        # return "indicator" CellFunction for subdomain
+        # return "indicator" MeshFunction for subdomain (CellFunction was deprecated)
         # set either DG or callable to True to use as function (callable with points)
         t = self.physicaldomain(string)
         sub = self.subdomains
@@ -395,7 +395,7 @@ class Geometry(object):
                     chi.vector()[i] = 1
             return chi
 
-        chi = CellFunction("size_t", self.mesh, 0)
+        chi = MeshFunction("size_t", self.mesh, self.mesh.topology().dim())
         for cell in cells(self.mesh):
             if sub[cell] in t:
                 chi[cell] = 1
@@ -692,7 +692,7 @@ def _invert_dict_nonunique(dom):
 
 # get Geometry
 def make_domain(mesh, list, check_midpoint=False):
-    subdomains = CellFunction("size_t", mesh, 0)
+    subdomains = MeshFunction("size_t", mesh, mesh.topology().dim())
     physical_domain = {}
     for i,sub in enumerate(list):
         sub.mark(subdomains, i, check_midpoint)
@@ -702,7 +702,7 @@ def make_domain(mesh, list, check_midpoint=False):
 
 def make_boundary(mesh, list, check_midpoint=False):
     i0 = 0
-    subdomains = FacetFunction("size_t", mesh, i0)
+    subdomains = MeshFunction("size_t", mesh, mesh.topology().dim()-1)
     physical_domain = {}
     for i,sub in enumerate(list):
         if hasattr(sub, "check_midpoint"):
@@ -761,8 +761,8 @@ def geo_from_name(name, mesh=None, check_midpoint=False, **params):
 def geo_from_xml(name):
     DIR = "%s/%s/mesh/" %(nanopores.DATADIR, name)
     mesh = Mesh(DIR+"mesh.xml")
-    subdomains = MeshFunction("size_t", mesh, DIR+"mesh_physical_region.xml")
-    boundaries = MeshFunction("size_t", mesh, DIR+"mesh_facet_region.xml")
+    subdomains = MeshFunction("size_t", mesh, filename=DIR+"mesh_physical_region.xml")
+    boundaries = MeshFunction("size_t", mesh, filename=DIR+"mesh_facet_region.xml")
 
     with open(DIR+"meta.txt", "r") as f:
         meta = eval(f.read())
@@ -792,8 +792,8 @@ def geo_from_xml_threadsafe(name, reuse_mesh=False, clscale=None, **params):
 
     DIR = "%s/%s/mesh/" %(nanopores.DATADIR, name)
     mesh = Mesh(comm, DIR+"mesh%s.xml" %pid)
-    subdomains = MeshFunction("size_t", mesh, DIR+"mesh%s_physical_region.xml" %pid)
-    boundaries = MeshFunction("size_t", mesh, DIR+"mesh%s_facet_region.xml" %pid)
+    subdomains = MeshFunction("size_t", mesh, filename=DIR+"mesh%s_physical_region.xml" %pid)
+    boundaries = MeshFunction("size_t", mesh, filename=DIR+"mesh%s_facet_region.xml" %pid)
 
     with open(DIR+"meta%s.txt" %pid, "r") as f:
         meta = eval(f.read())
