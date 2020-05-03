@@ -29,7 +29,7 @@ def geofile2geo(code, meta, name=None, clscale=1.):
         with open(inputfile, "w") as f:
             f.write(code)
         # after writing the geo file, call gmsh
-        gmsh_out = subprocess.call(["gmsh", "-3", "-v", "1",
+        gmsh_out = subprocess.call(["gmsh", "-format", "msh2", "-3", "-v", "1",
             "-clscale", "%f" %clscale, inputfile, "-o", outfile, "-optimize"])
 
         if gmsh_out != 0:
@@ -71,7 +71,7 @@ def reconstructgeo(name=None, pid=None, params=None):
     if not os.path.exists(meshfile):
         raise EnvironmentError(
                   "No existing mesh files found with pid %s." % pid)
-    print "Found existing mesh file with pid %s." % pid
+    print("Found existing mesh file with pid %s." % pid)
 
     with open('%s/meta%s.txt' % (meshdir, pid), "r") as f:
         meta = eval(f.read())
@@ -83,9 +83,9 @@ def reconstructgeo(name=None, pid=None, params=None):
             #print {k: v for k, v in mparams.items() if k not in params or params[k] != v}
             raise EnvironmentError(
                 "Mesh file does not have compatible parameters.")
-        print "Mesh file has compatible parameters."
+        print("Mesh file has compatible parameters.")
 
-    print "Reconstructing geometry from %s." % meshfile
+    print("Reconstructing geometry from %s." % meshfile)
 
     xml_sub = "%s/mesh%s_physical_region.xml" % (meshdir, pid)
     xml_bou = "%s/mesh%s_facet_region.xml" % (meshdir, pid)
@@ -136,8 +136,7 @@ def generate_mesh(clscale, gid, xml=True, pid="", dim=3, optimize=True, **params
     del geo_dict["geo_code"]
 
     # after writing the geo file, call gmsh
-    callstr = ["gmsh", "-%s" %dim, "-v", "1","-clscale", "%f" %clscale,
-                     fid_dict["fid_geo"], "-o", fid_dict["fid_msh"]]
+    callstr = ["gmsh", "-%s" %dim, "-format", "msh2", "-v", "1","-clscale", "%f" %clscale, fid_dict["fid_geo"], "-o", fid_dict["fid_msh"]]
     if optimize:
         callstr.append("-optimize")
     gmsh_out = subprocess.call(callstr)
@@ -168,6 +167,4 @@ def save(data, dir=".", name="file"):
 # to test script run '>> python -m nanopores.geo2xml'
 if __name__ == '__main__':
     params = {"x0": None}
-    print(generate_mesh(
-        clscale=7.0, gid="W_2D_geo", xml=False, **params)
-    )
+    print(generate_mesh(clscale=7.0, gid="W_2D_geo", xml=False, **params))

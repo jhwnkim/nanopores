@@ -4,7 +4,7 @@ python script that generates mesh for Howorka geometry
 
 from .params_geo import *
 import numpy
-from importlib import import_module
+from importlib import import_module, reload
 import nanopores.py4gmsh.basic
 import nanopores.py4gmsh.extra
 from nanopores.py4gmsh import *

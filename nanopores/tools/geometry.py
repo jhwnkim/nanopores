@@ -8,7 +8,7 @@ from nanopores.physics import params_physical
 import dolfin
 import numpy as np
 
-from importlib import import_module
+from importlib import import_module, reload
 import types
 
 __all__ = ["Geometry", "PhysicalBC", "geo_from_name", "geo_from_subdomains",

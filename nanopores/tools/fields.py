@@ -133,7 +133,7 @@ def get(name, *args, **params):
 def is_function_test(name, index=None, **params):
     FILE, params = Header().get_file_params(name, params, index)
     data = _load(FILE)
-    print "is function:", is_function(data)
+    print("is function:", is_function(data))
 
 def is_function(data):
     return all([string in data for string in ["functions", "ranks", "prefix", "empty"]])
@@ -189,7 +189,7 @@ def set_params(name, index, **params):
         set_param(name, index, k, params[k])
         
 def diff(params0, name, index=None, **params):
-    "to find out why data is not compatible with params0, print conflicts"
+    # "to find out why data is not compatible with params0, print conflicts"
     h = get_params(name, index, **params)
     keys = list(set(h.keys()) & set(params0.keys()))
     return {k: (params0[k], h[k]) for k in keys if params0[k] != h[k]}
@@ -309,9 +309,8 @@ class Header(object):
                 n += 1
         self._write()
         if N>0:
-            print ("Found %d new files, merged %d of them into "
-               "existing files.") % (N, n)
-        else: print "Nothing to be updated."
+            print("Found %d new files, merged %d of them into existing files." % (N, n))
+        else: print("Nothing to be updated.")
 
     def reread(self):
         "completely clear existing information and read again"
@@ -337,7 +336,7 @@ class Header(object):
         if FILE in self.header["_flist"]:
             self.header["_flist"].remove(FILE)
         path = os.path.join(DIR, FILE)
-        print "Removing %s" %path
+        print("Removing %s" %path)
         os.remove(path)
 
     def _delete_entry(self, name, params):
@@ -401,7 +400,7 @@ def _find_arrays(FILE):
 def _delete_arrays(FILE):
     for a in _find_arrays(FILE):
         fname = array_dir() + "/" + a + ".npy"
-        print "Removing %s." % fname
+        print("Removing %s." % fname)
         os.remove(fname)
         
 def _concat(a, b):
@@ -442,7 +441,7 @@ class NpyFile(object):
     
     def delete(self):
         fname = array_dir() + "/" + self.name + ".npy"
-        print "Removing %s." % fname
+        print("Removing %s." % fname)
         os.remove(fname)
         
     def extract(self):
@@ -673,7 +672,7 @@ def remove_functions(name, index=None, **params):
     h.remove(name, params, index)
     for f in files:
         path = os.path.join(DIR, f)
-        print "Removing %s" %path
+        print("Removing %s" %path)
         os.remove(path)
 
 # print information
@@ -683,14 +682,14 @@ def show(string=None, **params):
     for key in h:
         if string is not None and key != string:
             continue
-        print "\n%s" %key
+        print("\n%s" %key)
         lst = h[key]
         for i, dic in enumerate(lst):
             dic.pop("FILE")
             if not _compatible(dic, params):
                 continue
-            print "%d)" %(i+1,),
-            print ", ".join(["%s=%s" %x for x in dic.items()])
+            print("%d)" %(i+1,),)
+            print(", ".join(["%s=%s" %x for x in dic.items()]))
 
 def showfields(string=None):
     h = Header().header
@@ -698,7 +697,7 @@ def showfields(string=None):
     for key in h:
         if string is not None and key != string:
             continue
-        print "\n%s" %key
+        print("\n%s" %key)
         lst = h[key]
         for i, dic in enumerate(lst):
             FILE = dic.pop("FILE")
@@ -706,11 +705,11 @@ def showfields(string=None):
             if not "fields" in content or not content["fields"]:
                 continue
             n = len(content["fields"].values()[0])
-            print "-) %d field values, params:" %(n,),
-            print ", ".join(["%s=%s" %x for x in dic.items()])
+            print("-) %d field values, params:" %(n,),)
+            print(", ".join(["%s=%s" %x for x in dic.items()]))
 
 def shownames():
     h = Header().header
     h.pop("_flist")
     for key in h:
-        print key
+        print(key)

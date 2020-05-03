@@ -6,7 +6,7 @@ Simulation of Nanopores based on FEniCS FEM package. Original code and [paper](h
 ### Install dependencies
 
 ```console
-$ conda install -c conda-forge pathos
+$ conda install -c conda-forge pathos gmsh
 ```
 
 ### Set paths
