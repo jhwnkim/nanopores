@@ -19,3 +19,12 @@ from repository root directory
 ```console
 $ python ./scripts/test2D.py
 ```
+
+
+## Scripts
+### Basic tests
+* dolfin_test.py: provide simple dolfin classes for code inspection
+* simplegeo.py : example for how to use Geometry class with module 
+
+### Test scripts
+* analytical_test_case.py : analytical test problem to validate 2D solver

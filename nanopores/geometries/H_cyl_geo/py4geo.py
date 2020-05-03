@@ -4,6 +4,7 @@ import nanopores.py4gmsh.basic
 import nanopores.py4gmsh.extra
 from nanopores.py4gmsh import *
 from warnings import warn
+from importlib import reload
 
 def get_geo(x0 = None, crosssections = True, **params):
     """
