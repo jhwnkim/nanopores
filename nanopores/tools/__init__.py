@@ -10,6 +10,6 @@ from .mpipool import *
 from .transientpde import *
 from .box import *
 from .axisym import *
-import solvermethods
+from . import solvermethods
 
 from .solvers import *

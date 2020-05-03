@@ -44,7 +44,7 @@ def iterate_in_parallel(method, nproc=1, iterkeys=None, **params):
             iterkeys2.remove(key)
         iterkeys = iterkeys + iterkeys2
     else:
-        print "I'm ignoring your iterkeys."
+        print("I'm ignoring your iterkeys.")
         iterkeys = iterkeys2
 
     # create stamp of the input
@@ -195,7 +195,7 @@ def simulate(name, nproc=1, outputs=None, plot=None,
         return
 
     stamp["script"] = name
-    print result, stamp
+    print(result, stamp)
     if hasattr(script, "post_calculate"):
         script.post_calculate(result, stamp)
     else:
